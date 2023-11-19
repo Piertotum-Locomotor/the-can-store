@@ -1,4 +1,20 @@
+import { useEffect,useState } from "react";
+
+async function fetchProduct(name) {
+    const url = `products.json`;
+    const response = await fetch(url);
+    return response.json();
+  }
+
 export default function App() {
+  const [category, setCategory] = useState("All");
+  const [products, setProducts] = useState([]);
+  useEffect (() => {
+    (async () => { 
+      const newProducts = await fetchProduct();
+      setProducts(newProducts);
+    })();
+  },[]);
     return (
       <>
         <header>
@@ -6,7 +22,11 @@ export default function App() {
         </header>
         <div>
           <aside>
-            <form>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+              setCategory(event.target.elements.category.value);
+              alert(category);
+            }}>
               <div>
                 <label htmlFor="category">Choose a category:</label>
                 <select id="category">
@@ -25,7 +45,17 @@ export default function App() {
               </div>
             </form>
           </aside>
-          <main></main>
+          <main>
+          {products.map((jsondata) => {
+            return(
+                <section className={jsondata.type}>
+                  <h2>{jsondata.name}</h2>
+                  <p>${jsondata.price}</p>
+                  <img src={"images/" + jsondata.image} alt={jsondata.name}/>
+                </section>
+            )
+          })}
+          </main>
         </div>
         <footer>
           <p>All icons found at the Noun Project:</p>
