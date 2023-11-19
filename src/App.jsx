@@ -8,6 +8,7 @@ async function fetchProduct(name) {
 
 export default function App() {
   const [category, setCategory] = useState("All");
+  const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
   useEffect (() => {
     (async () => { 
@@ -25,7 +26,7 @@ export default function App() {
             <form onSubmit={(event) => {
               event.preventDefault();
               setCategory(event.target.elements.category.value);
-              alert(category);
+              setSearch(event.target.elements.searchTerm.value);
             }}>
               <div>
                 <label htmlFor="category">Choose a category:</label>
