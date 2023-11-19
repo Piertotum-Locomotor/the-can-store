@@ -48,13 +48,15 @@ export default function App() {
           </aside>
           <main>
           {products.map((jsondata) => {
-            return(
-                <section className={jsondata.type}>
-                  <h2>{jsondata.name}</h2>
-                  <p>${jsondata.price}</p>
-                  <img src={"images/" + jsondata.image} alt={jsondata.name}/>
-                </section>
-            )
+            if ((category.toLowerCase() === jsondata.type || category === "All") && jsondata.name.includes(search.toLowerCase())){
+              return(
+                  <section className={jsondata.type}>
+                    <h2>{jsondata.name}</h2>
+                    <p>${jsondata.price}</p>
+                    <img src={"images/" + jsondata.image} alt={jsondata.name}/>
+                  </section>
+              )
+            }
           })}
           </main>
         </div>
